@@ -30,7 +30,15 @@ class Module extends Model
     protected $table = 'modules';
     
     protected $fillable = [
-        "name", "name_db", "label", "view_col", "model", "controller", "is_gen", "fa_icon"
+        "name",
+        "name_db",
+        "label",
+        "view_col",
+        "model",
+        "controller",
+        "is_gen",
+        "fa_icon",
+        "single",
     ];
     
     protected $hidden = [
@@ -46,7 +54,7 @@ class Module extends Model
      * @param $icon Module FontAwesome Icon e.g. "fa-cube"
      * @return mixed Returns Module ID
      */
-    public static function generateBase($module_name, $icon)
+    public static function generateBase($module_name, $icon, Request $request)
     {
         
         $names = LAHelper::generateModuleNames($module_name, $icon);
@@ -63,14 +71,16 @@ class Module extends Model
         $module = Module::where('name', $names->module)->first();
         if(!isset($module->id)) {
             $module = Module::create([
-                'name' => $names->module,
-                'label' => $names->label,
-                'name_db' => $names->table,
-                'view_col' => "",
-                'model' => $names->model,
+                'name'       => $names->module,
+                'label'      => $names->label,
+                'name_db'    => $names->table,
+                'view_col'   => "",
+                'model'      => $names->model,
                 'controller' => $names->controller,
-                'fa_icon' => $names->fa_icon,
-                'is_gen' => $is_gen,
+                'fa_icon'    => $names->fa_icon,
+                'is_gen'     => $is_gen,
+
+                'single'     => $request->has("single"),
             
             ]);
         }

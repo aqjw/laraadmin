@@ -107,6 +107,7 @@ use Dwij\Laraadmin\Models\Module;
 			{!! Form::open(['route' => config('laraadmin.adminRoute') . '.modules.store', 'id' => 'module-add-form']) !!}
 			<div class="modal-body">
 				<div class="box-body">
+
 					<div class="form-group">
 						<label for="name">Module Name :</label>
 						{{ Form::text("name", null, ['class'=>'form-control', 'placeholder'=>'Module Name', 'data-rule-minlength' => 2, 'data-rule-maxlength'=>20, 'required' => 'required']) }}
@@ -118,6 +119,15 @@ use Dwij\Laraadmin\Models\Module;
 							<span class="input-group-addon"></span>
 						</div>
 					</div>
+					<div class="form-group">
+						<div class="checkbox">
+							<label class="ml-0">
+								<input type="checkbox" name="single">
+								Single page
+							</label>
+						</div>
+					</div>
+
 				</div>
 			</div>
 			<div class="modal-footer">
