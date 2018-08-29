@@ -39,7 +39,7 @@ use Dwij\Laraadmin\Models\Module;
 					<td>{{ $module->name_db }}</td>
 					<td>{{ Module::itemCount($module->name) }}</td>
 					<td>
-						<a module_label="{{ $module->label }}" module_icon="{{ $module->fa_icon }}" module_id="{{ $module->id }}" class="btn btn-primary btn-xs update_module" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>
+						<a module_label="{{ $module->label }}" module_single="{{ $module->single }}" module_icon="{{ $module->fa_icon }}" module_id="{{ $module->id }}" class="btn btn-primary btn-xs update_module" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-edit"></i></a>
 						<a href="{{ url(config('laraadmin.adminRoute') . '/modules/'.$module->id)}}#access" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-key"></i></a>
 						<a href="{{ url(config('laraadmin.adminRoute') . '/modules/'.$module->id)}}#sort" class="btn btn-success btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-sort"></i></a>
 						<a module_name="{{ $module->name }}" module_id="{{ $module->id }}" class="btn btn-danger btn-xs delete_module" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-trash"></i></a>
@@ -190,6 +190,14 @@ use Dwij\Laraadmin\Models\Module;
 								<span class="input-group-addon update-icon"></span>
 							</div>
 						</div>
+						<div class="form-group">
+							<div class="checkbox">
+								<label class="ml-0">
+									<input type="checkbox" name="single" class="module_single_edit">
+									Single page
+								</label>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -243,19 +251,22 @@ $(function () {
 	$('.update_module').on("click", function () {
     	var module_id = $(this).attr('module_id');	 
 		var module_label = $(this).attr('module_label');
+		var module_single = $(this).attr('module_single');
 		var module_icon = $(this).attr('module_icon');
 		$(".module_label_edit").val(module_label);
+		$(".module_single_edit").prop("checked", module_single=="1");
 		$(".module_icon_edit").val(module_icon);		
 		$("#module_update").modal('show');
 		$(".update-icon").html('<center><i class="fa '+module_icon+'"></i></center>');
 
 		$('.save_edit_module').on("click", function () {
 			var module_label = $(".module_label_edit").val();
+			var module_single = $(".module_single_edit").prop("checked");
 			var module_icon = $(".module_icon_edit").val();
 			$.ajax({
 				url: "{{ url(config('laraadmin.adminRoute') . '/module_update') }}",
 				type:"POST",
-				data : {'id':module_id,'label':module_label, 'icon':module_icon, '_token': '{{ csrf_token() }}' },
+				data : {'id':module_id,'label':module_label, 'single':module_single, 'icon':module_icon, '_token': '{{ csrf_token() }}' },
 				success: function(data) {
 					location.reload();
 				}

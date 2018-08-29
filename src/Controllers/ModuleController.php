@@ -102,8 +102,9 @@ class ModuleController extends Controller
     {
         $module = Module::find($request->id);
         if(isset($module->id)) {
-            $module->label = ucfirst($request->label);
+            $module->label   = ucfirst($request->label);
             $module->fa_icon = $request->icon;
+            $module->single  = $request->single == "true";
             $module->save();
             
             $menu = Menu::where('url', strtolower($module->name))->where('type', 'module')->first();
