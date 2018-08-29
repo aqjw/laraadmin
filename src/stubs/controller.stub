@@ -169,7 +169,12 @@ class __controller_class_name__ extends Controller
                 return redirect()->back()->withErrors($validator)->withInput();;
             }
             
-            $insert_id = Module::updateRow("__module_name__", $request, $id);
+            Module::updateRow("__module_name__", $request, $id);
+            
+            // if was click an Apply
+            if( $request->has(|"apply") ){
+                return redirect()->back();
+            }
             
             return redirect()->route(config('laraadmin.adminRoute') . '.__route_resource__.index');
             
