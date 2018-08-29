@@ -9,6 +9,8 @@
         "source": "https://github.com/dwijitsolutions/laraadmin"
     },
     "version": "1.0.40",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "illuminate/support": "5.*",
         "laravelcollective/html": "^5.2|^5.1",
