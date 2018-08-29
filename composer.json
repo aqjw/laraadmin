@@ -1,5 +1,5 @@
- {
-    "name": "aqjw/laraadmin",
+{
+    "name": "dwij/laraadmin",
     "description": "LaraAdmin is a Open source Laravel Admin Panel / CMS which can be used as Admin Backend, Data Management Tool or CRM boilerplate for Laravel with features like CRUD Generation, Module Manager, Media, Menus, Backups and much more",
     "keywords": ["php", "laravel", "crm", "admin", "cms", "administrator"],
     "license": "MIT",
@@ -8,8 +8,7 @@
         "issues": "https://github.com/dwijitsolutions/laraadmin/issues",
         "source": "https://github.com/dwijitsolutions/laraadmin"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
+    "version": "1.0.40",
     "require": {
         "illuminate/support": "5.*",
         "laravelcollective/html": "^5.2|^5.1",
