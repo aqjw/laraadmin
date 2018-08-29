@@ -42,7 +42,7 @@
             @foreach ($menuItems as $menu)
                 @if($menu->type == "module")
                     <?php
-                    $temp_module_obj = Module::get($menu->name);
+                    $temp_module_obj = Module::get($menu->url);
                     ?>
                     @if($temp_module_obj)
                         @la_access($temp_module_obj->id)
