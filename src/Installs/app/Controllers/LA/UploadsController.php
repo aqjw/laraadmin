@@ -154,52 +154,54 @@ class UploadsController extends Controller
 				*/
 				$file = Input::file('file');
 				
-				// print_r($file);
+				// get hash file
+				$hash_file = hash_file("md5", $file->getRealPath());
+				// get file by hash file
+				$file_with_hash = Upload::where("hash", $hash_file)->first();
 				
-				$folder = storage_path('uploads');
-				$filename = $file->getClientOriginalName();
-	
-				$date_append = date("Y-m-d-His-");
-				$upload_success = Input::file('file')->move($folder, $date_append.$filename);
-				
-				if( $upload_success ) {
-	
-					// Get public preferences
-					// config("laraadmin.uploads.default_public")
-					$public = Input::get('public');
-					if(isset($public)) {
-						$public = true;
-					} else {
-						$public = false;
-					}
-	
-					$upload = Upload::create([
-						"name" => $filename,
-						"path" => $folder.DIRECTORY_SEPARATOR.$date_append.$filename,
-						"extension" => pathinfo($filename, PATHINFO_EXTENSION),
-						"caption" => "",
-						"hash" => "",
-						"public" => $public,
-						"user_id" => Auth::user()->id
-					]);
-					// apply unique random hash to file
-					while(true) {
-						$hash = strtolower(str_random(20));
-						if(!Upload::where("hash", $hash)->count()) {
-							$upload->hash = $hash;
-							break;
+				if(! $file_with_hash )
+				{
+					$folder = storage_path('uploads');
+					$filename = $file->getClientOriginalName();
+		
+					$date_append = date("Y-m-d-His-");
+					$upload_success = Input::file('file')->move($folder, $date_append.$filename);
+					
+					if( $upload_success ) {
+		
+						// Get public preferences
+						// config("laraadmin.uploads.default_public")
+						$public = Input::get('public');
+						if(isset($public)) {
+							$public = true;
+						} else {
+							$public = false;
 						}
+		
+						$upload = Upload::create([
+							"name"      => $filename,
+							"path"      => $folder.DIRECTORY_SEPARATOR.$date_append.$filename,
+							"extension" => pathinfo($filename, PATHINFO_EXTENSION),
+							"caption"   => "",
+							"hash"      => $hash_file,
+							"public"    => $public,
+							"user_id"   => Auth::user()->id
+						]);
+		
+						return response()->json([
+							"status" => "success",
+							"upload" => $upload
+						], 200);
+					} else {
+						return response()->json([
+							"status" => "error"
+						], 400);
 					}
-					$upload->save();
-	
-					return response()->json([
-						"status" => "success",
-						"upload" => $upload
-					], 200);
 				} else {
 					return response()->json([
-						"status" => "error"
-					], 400);
+						"status" => "success",
+						"upload" => $file_with_hash
+					], 200);
 				}
 			} else {
 				return response()->json('error: upload file not found.', 400);
