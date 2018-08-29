@@ -44,13 +44,15 @@
                     <?php
                     $temp_module_obj = Module::get($menu->name);
                     ?>
-                    @la_access($temp_module_obj->id)
-						@if(isset($module->id) && $module->name == $menu->name)
-                        	<?php echo LAHelper::print_menu($menu ,true); ?>
-						@else
-							<?php echo LAHelper::print_menu($menu); ?>
-						@endif
-                    @endla_access
+                    @if($temp_module_obj)
+                        @la_access($temp_module_obj->id)
+                            @if(isset($module->id) && $module->name == $menu->name)
+                                <?php echo LAHelper::print_menu($menu ,true); ?>
+                            @else
+                                <?php echo LAHelper::print_menu($menu); ?>
+                            @endif
+                        @endla_access
+                    @endif
                 @else
                     <?php echo LAHelper::print_menu($menu); ?>
                 @endif

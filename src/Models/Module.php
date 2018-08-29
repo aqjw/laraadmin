@@ -12,6 +12,7 @@ namespace Dwij\Laraadmin\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Http\Request;
 use Exception;
 use Log;
 use DB;
